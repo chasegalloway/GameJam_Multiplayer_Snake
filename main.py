@@ -1,7 +1,5 @@
 import pygame
 import random
-
-
 # define the game colors
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
@@ -91,8 +89,6 @@ class Apple:
         pygame.draw.rect(game_display, RED, [self.position[0], self.position[1], 10, 10])
 
 # define the game over function
-
-
 def game_over():
     # display the game over text
     game_over_text = font.render('Game Over!', True, WHITE)
@@ -115,7 +111,7 @@ apple = Apple()
 # define computer snake
 
 
-#  global computer_snake
+# global computer_snake
 
 computer_snake = Snake(PURPLE, (3*display_width/4, display_height/2))
 
@@ -128,8 +124,8 @@ def game_loop():
 # set the initial score
 
 
-score = 0
-computer_score = 0
+score = 1
+computer_score = 1
 
 # loop until the user quits or the snake collides with itself or the other snake
 while not game_exit:
@@ -154,15 +150,37 @@ while not game_exit:
                 player_snake.change_direction('left')
             elif event.key == pygame.K_RIGHT:
                 player_snake.change_direction('right')
-
+            # elif event.key == pygame.K_SPACE:
+            #   player_snake.grow()
     # move the player snake
     player_snake.move()
 
-    # check if the player snake has collided with the computer snake or the wall
-    if player_snake.is_collision(computer_snake) or player_snake.body[0][0] < 0 or player_snake.body[0][0] >= display_width \
-            or player_snake.body[0][1] < 0 or player_snake.body[0][1] >= display_height:
+    # check if the player snake has collided with the computer snake
+    if player_snake.is_collision(computer_snake):
         game_over()
         game_exit = True
+        # check if the player snake has collided with the computer snake
+        if player_snake.is_collision(computer_snake):
+            game_over()
+            game_exit = True
+
+            # check if the player snake has collided with the computer snake
+            if player_snake.is_collision(player_snake):
+                game_over()
+                game_exit = True
+
+    # check if the computer snake has hit a wall
+    if computer_snake.body[0][0] < 0 or computer_snake.body[0][0] > display_width - 10 or computer_snake.body[0][
+        1] < 0 or computer_snake.body[0][1] > display_height - 10:
+        # turn the snake around
+        if computer_snake.direction == 'left':
+            computer_snake.direction = 'right'
+        elif computer_snake.direction == 'right':
+            computer_snake.direction = 'left'
+        elif computer_snake.direction == 'up':
+            computer_snake.direction = 'down'
+        elif computer_snake.direction == 'down':
+            computer_snake.direction = 'up'
 
     # check if the player snake has eaten the apple
     if player_snake.body[0] == apple.position:
@@ -172,6 +190,7 @@ while not game_exit:
         apple.generate_position()
 
     # move the computer snake
+
     if computer_snake.body[0][1] < apple.position[1]:
         computer_snake.change_direction('down')
     elif computer_snake.body[0][1] > apple.position[1]:
@@ -182,12 +201,6 @@ while not game_exit:
         computer_snake.change_direction('left')
     computer_snake.move()
 
-    # check if the computer snake has collided with the player the wall
-    if computer_snake.is_collision(player_snake) or computer_snake.body[0][0] < 0 or computer_snake.body[0][0] >= \
-            display_width\
-            or computer_snake.body[0][1] < 0 or computer_snake.body[0][1] >= display_height:
-        game_over()
-        game_exit = True
 
     # check if the computer snake has eaten the apple
     if computer_snake.body[0] == apple.position:
@@ -202,8 +215,8 @@ while not game_exit:
     apple.draw()
 
     # draw the scores
-    score_text = font.render('Player Score: ' + str(score), True, WHITE)
-    computer_score_text = font.render('Computer Score: ' + str(computer_score), True, WHITE)
+    score_text = font.render('Player Length: ' + str(score), True, WHITE)
+    computer_score_text = font.render('Computer Length: ' + str(computer_score), True, WHITE)
     game_display.blit(score_text, [0, 0])
     game_display.blit(computer_score_text, [150, 0])
 
