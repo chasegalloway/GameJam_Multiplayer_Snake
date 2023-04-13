@@ -146,6 +146,14 @@ while not game_exit:
                 player_snake.change_direction('left')
             elif event.key == pygame.K_d:
                 player_snake.change_direction('right')
+                            elif event.key == pygame.K_UP:
+                player_snake.change_direction('up')
+            elif event.key == pygame.K_DOWN:
+                player_snake.change_direction('down')
+            elif event.key == pygame.K_LEFT:
+                player_snake.change_direction('left')
+            elif event.key == pygame.K_RIGHT:
+                player_snake.change_direction('right')
 
     # move the player snake
     player_snake.move()
