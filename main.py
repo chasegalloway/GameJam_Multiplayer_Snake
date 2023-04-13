@@ -96,7 +96,7 @@ class Apple:
 def game_over():
     # display the game over text
     game_over_text = font.render('Game Over!', True, WHITE)
-    game_display.blit(game_over_text, [display_width/2, display_height/2])
+    game_display.blit(game_over_text, [350, 260])
 
     # update the display
     pygame.display.update()
@@ -146,6 +146,14 @@ while not game_exit:
                 player_snake.change_direction('left')
             elif event.key == pygame.K_d:
                 player_snake.change_direction('right')
+            elif event.key == pygame.K_UP:
+                player_snake.change_direction('up')
+            elif event.key == pygame.K_DOWN:
+                player_snake.change_direction('down')
+            elif event.key == pygame.K_LEFT:
+                player_snake.change_direction('left')
+            elif event.key == pygame.K_RIGHT:
+                player_snake.change_direction('right')
 
     # move the player snake
     player_snake.move()
@@ -161,6 +169,7 @@ while not game_exit:
         player_snake.grow()
         score += 1
         apple.generate_position()
+        apple.generate_position()
 
     # move the computer snake
     if computer_snake.body[0][1] < apple.position[1]:
@@ -171,11 +180,11 @@ while not game_exit:
         computer_snake.change_direction('right')
     elif computer_snake.body[0][0] > apple.position[0]:
         computer_snake.change_direction('left')
-
     computer_snake.move()
 
-    # check if the computer snake has collided with the player snake or the wall
-    if computer_snake.is_collision(player_snake) or computer_snake.body[0][0] < 0 or computer_snake.body[0][0] >= display_width\
+    # check if the computer snake has collided with the player the wall
+    if computer_snake.is_collision(player_snake) or computer_snake.body[0][0] < 0 or computer_snake.body[0][0] >= \
+            display_width\
             or computer_snake.body[0][1] < 0 or computer_snake.body[0][1] >= display_height:
         game_over()
         game_exit = True
@@ -196,8 +205,10 @@ while not game_exit:
     score_text = font.render('Player Score: ' + str(score), True, WHITE)
     computer_score_text = font.render('Computer Score: ' + str(computer_score), True, WHITE)
     game_display.blit(score_text, [0, 0])
-    game_display.blit(computer_score_text, [150, 00])
-    # update the display
+    game_display.blit(computer_score_text, [150, 0])
+
+
+# update the display
     pygame.display.update()
 
     # set the game clock tick rate
