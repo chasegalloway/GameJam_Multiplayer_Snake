@@ -103,7 +103,7 @@ def game_over():
     pygame.display.update()
 
     # pause for 2 seconds before quitting
-    pygame.time.wait(2000)
+    pygame.time.wait(3000)
 
 # create the player snake and apple
     global player_snake
@@ -155,8 +155,8 @@ while not game_exit:
                 player_snake.change_direction('left')
             elif event.key == pygame.K_RIGHT:
                 player_snake.change_direction('right')
-            elif event.key == pygame.K_SPACE:
-                player_snake.grow()
+            #elif event.key == pygame.K_SPACE:
+            #    player_snake.grow()
     # move the player snake
     player_snake.move()
 
@@ -169,19 +169,17 @@ while not game_exit:
     if player_snake.is_collision(computer_snake):
         game_over()
         game_exit = True
-        # check if the player snake has collided with the computer snake
-        if player_snake.is_collision(computer_snake):
-            game_over()
-            game_exit = True
 
-            # check if the player snake has collided with the computer snake
-            if player_snake.is_collision(player_snake):
-                game_over()
-                game_exit = True
+# check if the player snake has hit a wall
+    if player_snake.body[0][0] < 0 or player_snake.body[0][0] > display_width - 10 or player_snake.body[0][
+        1] < 0 or player_snake.body[0][1] > display_height - 10:
+        game_over()
+        game_exit = True
 
-    # check if the computer snake has hit a wall
+# check if the computer snake has hit a wall
     if computer_snake.body[0][0] < 0 or computer_snake.body[0][0] > display_width - 10 or computer_snake.body[0][
         1] < 0 or computer_snake.body[0][1] > display_height - 10:
+
         # turn the snake around
         if computer_snake.direction == 'left':
             computer_snake.direction = 'right'
@@ -212,7 +210,7 @@ while not game_exit:
     computer_snake.move()
 
 
-    # check if the computer snake has eaten the apple
+#  check if the computer snake has eaten the apple
     if computer_snake.body[0] == apple.position:
         computer_snake.grow()
         computer_score += 1
