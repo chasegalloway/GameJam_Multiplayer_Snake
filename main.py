@@ -70,6 +70,11 @@ class Snake:
         for position in self.body:
             pygame.draw.rect(game_display, self.color, [position[0], position[1], 10, 10])
 
+    def is_self_collision(self):
+        if self.body[0] in self.body[1:]:
+            return True
+        return False
+
     def is_collision(self, other_snake):
         if self.body[0] in other_snake.body[1:]:
             return True
@@ -150,10 +155,15 @@ while not game_exit:
                 player_snake.change_direction('left')
             elif event.key == pygame.K_RIGHT:
                 player_snake.change_direction('right')
-            # elif event.key == pygame.K_SPACE:
-            #   player_snake.grow()
+            elif event.key == pygame.K_SPACE:
+                player_snake.grow()
     # move the player snake
     player_snake.move()
+
+    # check if the player snake has collided with itself
+    if player_snake.is_self_collision():
+        game_over()
+        game_exit = True
 
     # check if the player snake has collided with the computer snake
     if player_snake.is_collision(computer_snake):
