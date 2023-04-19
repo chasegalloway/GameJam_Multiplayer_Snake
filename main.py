@@ -1,5 +1,6 @@
 import pygame
 import random
+
 # define the game colors
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
@@ -7,6 +8,7 @@ ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 PURPLE = (160, 32, 240)
+
 # initialize pygame
 pygame.init()
 
@@ -32,7 +34,6 @@ font = pygame.font.SysFont(None, 25)
 game_exit = False
 
 # define the Snake class
-
 
 class Snake:
     def __init__(self, color, position):
@@ -82,7 +83,6 @@ class Snake:
 
 # define the Apple class
 
-
 class Apple:
     def __init__(self):
         self.position = (random.randrange(0, display_width, 10), random.randrange(0, display_height, 10))
@@ -127,10 +127,8 @@ def game_loop():
     game_exit = False
 
 # set the initial score
-
-
-score = 1
-computer_score = 1
+score = 0
+computer_score = 0
 
 # loop until the user quits or the snake collides with itself or the other snake
 while not game_exit:
@@ -170,6 +168,11 @@ while not game_exit:
         game_over()
         game_exit = True
 
+    # check if the computer snake has collided with the player snake
+        if computer_snake.is_collision(player_snake):
+            game_over()
+            game_exit = True
+
 # check if the player snake has hit a wall
     if player_snake.body[0][0] < 0 or player_snake.body[0][0] > display_width - 10 or player_snake.body[0][
         1] < 0 or player_snake.body[0][1] > display_height - 10:
@@ -177,8 +180,8 @@ while not game_exit:
         game_exit = True
 
 # check if the computer snake has hit a wall
-    if computer_snake.body[0][0] < 0 or computer_snake.body[0][0] > display_width - 10 or computer_snake.body[0][
-        1] < 0 or computer_snake.body[0][1] > display_height - 10:
+    if computer_snake.body[0][0] < 0 or computer_snake.body[0][0] > display_width - 10 or computer_snake.body[0][1] \
+            < 0 or computer_snake.body[0][1] > display_height - 10:
 
         # turn the snake around
         if computer_snake.direction == 'left':
@@ -195,10 +198,8 @@ while not game_exit:
         player_snake.grow()
         score += 1
         apple.generate_position()
-        apple.generate_position()
 
     # move the computer snake
-
     if computer_snake.body[0][1] < apple.position[1]:
         computer_snake.change_direction('down')
     elif computer_snake.body[0][1] > apple.position[1]:
@@ -223,8 +224,8 @@ while not game_exit:
     apple.draw()
 
     # draw the scores
-    score_text = font.render('Player Length: ' + str(score), True, WHITE)
-    computer_score_text = font.render('Computer Length: ' + str(computer_score), True, WHITE)
+    score_text = font.render('Player Score: ' + str(score), True, WHITE)
+    computer_score_text = font.render('Computer Score: ' + str(computer_score), True, WHITE)
     game_display.blit(score_text, [0, 0])
     game_display.blit(computer_score_text, [150, 0])
 
