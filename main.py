@@ -81,6 +81,40 @@ class Snake:
             return True
         return False
 
+# define start menu function
+def start_menu():
+    global computer_snakes
+computer_snakes = []
+
+    # display the start menu text
+start_menu_text = font.render('Press 1 for One Snake, 2 for Two Snakes, or 3 for Three Snakes', True, WHITE)
+game_display.blit(start_menu_text, [50, 260])
+
+# update the display
+pygame.display.update()
+
+# handle events
+start_menu_exit = False
+while not start_menu_exit:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            start_menu_exit = True
+            game_exit = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                num_computer_snakes = 1
+                start_menu_exit = True
+            elif event.key == pygame.K_2:
+                num_computer_snakes = 2
+                start_menu_exit = True
+            elif event.key == pygame.K_3:
+                num_computer_snakes = 3
+                start_menu_exit = True
+
+# spawn computer snakes
+for i in range(num_computer_snakes):
+    computer_snakes.append(Snake(PURPLE, (3*display_width/4, random.randrange(0, display_height, 10))))
+
 # define the Apple class
 
 class Apple:
@@ -126,6 +160,7 @@ computer_snake = Snake(PURPLE, (3*display_width/4, display_height/2))
 def game_loop():
     game_exit = False
 
+
 # set the initial score
 score = 0
 computer_score = 0
@@ -155,6 +190,7 @@ while not game_exit:
                 player_snake.change_direction('right')
             #elif event.key == pygame.K_SPACE:
             #    player_snake.grow()
+
     # move the player snake
     player_snake.move()
 
@@ -228,7 +264,6 @@ while not game_exit:
     computer_score_text = font.render('Computer Score: ' + str(computer_score), True, WHITE)
     game_display.blit(score_text, [0, 0])
     game_display.blit(computer_score_text, [150, 0])
-
 
 # update the display
     pygame.display.update()
