@@ -8,18 +8,20 @@ ORANGE = (255, 165, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 PURPLE = (160, 32, 240)
+BLUE = (0, 0, 255)
 
 # initialize pygame
 pygame.init()
 
 # set the game display dimensions
-display_width = 800
-display_height = 600
+display_width = 400
+display_height = 400
 SCREEN_WIDTH = display_width
 SCREEN_HEIGHT = display_height
 
 # create the game display
 game_display = pygame.display.set_mode((display_width, display_height))
+game_display.fill(PURPLE)
 
 # set the game display caption
 pygame.display.set_caption("Multiplayer Snake by Chase Galloway")
@@ -87,13 +89,14 @@ def start_menu():
 computer_snakes = []
 
     # display the start menu text
-start_menu_text = font.render('Press 1 for One Snake, 2 for Two Snakes, or 3 for Three Snakes', True, WHITE)
-game_display.blit(start_menu_text, [50, 260])
+start_menu_text = font.render('Press Enter to Begin', True, WHITE)
+game_display.blit(start_menu_text, [116, 180])
 
 # update the display
 pygame.display.update()
 
 # handle events
+num_computer_snakes = 0
 start_menu_exit = False
 while not start_menu_exit:
     for event in pygame.event.get():
@@ -101,15 +104,20 @@ while not start_menu_exit:
             start_menu_exit = True
             game_exit = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
+            if event.key == pygame.K_RETURN:
                 num_computer_snakes = 1
                 start_menu_exit = True
-            elif event.key == pygame.K_2:
-                num_computer_snakes = 2
-                start_menu_exit = True
-            elif event.key == pygame.K_3:
-                num_computer_snakes = 3
-                start_menu_exit = True
+                game_display.fill(BLACK)
+            #if event.key == pygame.K_1:
+                #num_computer_snakes = 1
+                #start_menu_exit = True
+            #elif event.key == pygame.K_2:
+                #num_computer_snakes = 2
+                #start_menu_exit = True
+            #elif event.key == pygame.K_3:
+                #num_computer_snakes = 3
+                #start_menu_exit = True
+
 
 # spawn computer snakes
 for i in range(num_computer_snakes):
@@ -131,7 +139,7 @@ class Apple:
 def game_over():
     # display the game over text
     game_over_text = font.render('Game Over!', True, WHITE)
-    game_display.blit(game_over_text, [350, 260])
+    game_display.blit(game_over_text, [146, 180])
 
     # update the display
     pygame.display.update()
@@ -148,7 +156,6 @@ player_snake = Snake(GREEN, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 apple = Apple()
 
 # define computer snake
-
 
 # global computer_snake
 
