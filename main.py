@@ -276,7 +276,7 @@ while not game_exit:
     pygame.display.update()
 
     # set the game clock tick rate
-    clock.tick(10)
+    clock.tick(15)
 
 # quit pygame and exit the program
 pygame.quit()
